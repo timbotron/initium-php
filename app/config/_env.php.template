@@ -1,0 +1,8 @@
+<?php
+
+// Set the credentials, info here, resave as _env.php
+define('DB_NAME','xxxxx');
+define('DB_SERVER','xxxxx');
+define('DB_USER','xxxxx');
+define('DB_PASS','xxxxx');
+define('EMAIL','me@example.com');

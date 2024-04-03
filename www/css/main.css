@@ -1,0 +1,37 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+a.fnt--mid-gray, h2 a {
+    text-decoration: none;
+}
+
+section.brdr--light-gray {
+    border-left: 0em;
+    border-right: 0em;
+}
+
+header h2 {
+    margin-bottom: 0em;
+}
+section h2 {
+    margin: 0em;
+}
+
+ul.list--unstyled {
+    padding-left:0em;
+}
+
+img {
+    margin: 0.5em 0;
+}
+code {
+    background-color: #CCC;
+}
+
+@media screen and (max-width: 600px) {
+  section p, section ul, section li, section small, aside ul, aside li {
+    font-size: 14px;
+    }
+
+}

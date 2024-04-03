@@ -1,0 +1,12 @@
+/vendor
+/app/config/_env.php
+push_to_test.sh
+/www/file/*
+/www/rss.xml
+composer.phar
+composer.lock
+.DS_Store
+Thumbs.db
+.composer
+*.sublime-workspace
+*.sublime-project
