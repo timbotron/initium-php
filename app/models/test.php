@@ -1,6 +1,6 @@
 <?php
 
-namespace Timh;
+namespace Initium;
 
 class Test {
 

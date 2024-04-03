@@ -1,6 +1,6 @@
 <?php
 
-namespace Timh;
+namespace Initium;
 
 require __DIR__ . '/../vendor/autoload.php';
 \AaronHolbrook\Autoload\autoload( __DIR__ . '/../app/config' );
@@ -8,7 +8,7 @@ require  __DIR__ . '/../vendor/verot/class.upload.php/src/class.upload.php';
 
 $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
    
-    $r->get('/test2/{tid:\d+}',['\Timh\Test','test_instance']);
+    $r->get('/test2/{tid:\d+}',['\Initium\Test','test_instance']);
 
 });
 

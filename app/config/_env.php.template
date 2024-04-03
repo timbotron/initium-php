@@ -6,3 +6,5 @@ define('DB_SERVER','xxxxx');
 define('DB_USER','xxxxx');
 define('DB_PASS','xxxxx');
 define('EMAIL','me@example.com');
+define('EMAIL_MAILGUN_KEY','xxxxxx');
+define('EMAIL_MAILGUN_DOMAIN','xxxxx');

@@ -3,7 +3,7 @@
 ini_set('date.timezone', 'America/Los_Angeles');
 
 // make directory put here be the root of project
-define('PROJECT_ROOT', substr(__DIR__, 0,strpos(__DIR__, '/timh-boilerplate/')).'/timh-boilerplate');
+define('PROJECT_ROOT', substr(__DIR__, 0,strpos(__DIR__, '/site_dir/')).'/site_dir');
 
 \AaronHolbrook\Autoload\autoload( __DIR__ . '/../models' );
 
