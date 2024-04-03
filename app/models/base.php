@@ -16,5 +16,7 @@ class Base {
             'charset' => 'utf8'
         ]);
         var_dump("in base construct");
+
     }
+
 }
