@@ -18,6 +18,6 @@ class Test extends Base {
 
         $email = new Email();
 
-        var_dump($email->send_email('tim.habersack@gmail.com', 'subject goes here', 'for the text lovers out thre', '<h2>hot darn email</h2>'));
+        var_dump($email->send_mailgun('tim.habersack@gmail.com', 'mah subject', 'email text content for text only fans', "<h3>hot darn</h3>\n<p>It is email time.</p>"));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Initium;
 
-
+use League\Plates\Engine;
 
 class User extends Base {
 
@@ -16,6 +16,14 @@ class User extends Base {
 	    ]);
 
 	    return $ret;
+	}
+
+	public function login_page() {
+		// just draw page
+		$templates = new Engine(__DIR__ . '../templates');
+
+		echo $templates->render('login', ['page_title' => 'Initium PHP Login']);
+
 	}
 
 	// set password

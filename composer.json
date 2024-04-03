@@ -5,7 +5,7 @@
         "league/plates": "^3.5",
         "michelf/php-markdown": "^2.0",
         "verot/class.upload.php": "dev-master",
-        "mailgun/mailgun-php": "^4.2",
+        "vlucas/valitron": "^1.4",
         "catfan/medoo": "^2.1"
     }
 }
