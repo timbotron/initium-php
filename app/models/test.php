@@ -2,11 +2,7 @@
 
 namespace Initium;
 
-class Test {
-
-    public function __construct() {
-        $this->db = 'DATA';
-    }
+class Test extends Base {
 
     public static function go_here() {
         echo "you made it son\n";
