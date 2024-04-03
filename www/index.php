@@ -2,6 +2,10 @@
 
 namespace Initium;
 
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 require __DIR__ . '/../vendor/autoload.php';
 \AaronHolbrook\Autoload\autoload( __DIR__ . '/../app/config' );
 require  __DIR__ . '/../vendor/verot/class.upload.php/src/class.upload.php';
