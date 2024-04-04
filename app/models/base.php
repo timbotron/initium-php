@@ -15,7 +15,7 @@ class Base {
             'password' => DB_PASS,
             'charset' => 'utf8'
         ]);
-        var_dump("in base construct");
+        //var_dump("in base construct");
 
     }
 

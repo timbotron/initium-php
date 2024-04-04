@@ -20,9 +20,11 @@ class User extends Base {
 
 	public function login_page() {
 		// just draw page
-		$templates = new Engine(__DIR__ . '../templates');
+		$templates = new Engine(__DIR__ . '/../templates');
+		$templates->addData(['page_title' => 'Initium PHP Login'], ['basic']);
 
-		echo $templates->render('login', ['page_title' => 'Initium PHP Login']);
+
+		echo $templates->render('login', );
 
 	}
 
