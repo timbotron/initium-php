@@ -1,6 +1,9 @@
 <?php $this->layout('basic');?>
-<section class="brdr--light-gray grd-row-col-4-6--md my1 p1">
+<div class="grd-row-col-2-6--md">
+	
+</div>
+<div class="bg--off-white grd-row-col-2-6--md p1">
 <h3>Login</h3>
 
 <p>form goes here</p>
-</section>
+</div>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/furtive.min.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body class="grd bg--off-white fnt--dark-gray">
+<body class="grd fnt--dark-gray">
     <div class="grd-row my2">
         <?=$this->section('content')?>
     </div>
