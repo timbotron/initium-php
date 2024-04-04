@@ -2,8 +2,6 @@
 
 namespace Initium;
 
-use League\Plates\Engine;
-
 class User extends Base {
 
 	// create user
@@ -20,12 +18,37 @@ class User extends Base {
 
 	public function login_page() {
 		// just draw page
-		$templates = new Engine(__DIR__ . '/../templates');
+		$templates = new \League\Plates\Engine(__DIR__ . '/../templates');
 		$templates->addData(['page_title' => 'Initium PHP Login'], ['basic']);
 
 
 		echo $templates->render('login', );
 
+	}
+
+	public function create_account_page() {
+		// just draw page
+		$templates = new \League\Plates\Engine(__DIR__ . '/../templates');
+		$templates->addData(['page_title' => 'Initium PHP Login'], ['basic']);
+		echo $templates->render('create_account', );
+
+	}
+
+	public function create_account() {
+		// validate
+
+		$v = new \Valitron\Validator($_POST);
+		$v->rule('required', ['email']);
+		$v->rule('email', 'email');
+		if($v->validate()) {
+		    echo "Yay! We're all good!";
+		} else {
+		    // Errors
+		    print_r($v->errors());
+		}
+
+		//if good, create user
+		//
 	}
 
 	// set password

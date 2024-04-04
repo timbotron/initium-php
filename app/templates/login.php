@@ -2,8 +2,14 @@
 <div class="grd-row-col-2-6--md">
 	
 </div>
-<div class="bg--off-white grd-row-col-2-6--md p1">
+<div class="brdr--light-gray grd-row-col-2-6--md p1">
 <h3>Login</h3>
 
-<p>form goes here</p>
+<form action="login.php" method="POST">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+</form>
 </div>

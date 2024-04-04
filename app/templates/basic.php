@@ -14,7 +14,8 @@
 
 
     <footer class="grd-row txt--center my2">
-        <section class="grd-row-col-3-6--md px2">
+        <section class="grd-row-col-2-6--md px2"></section>
+        <section class="grd-row-col-2-6--md px2">
             <a target="_blank" class="fnt--green" href="http://citracode.com">Powered by Citracode</a>
         </section>
     </footer>
