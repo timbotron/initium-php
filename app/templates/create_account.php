@@ -9,9 +9,9 @@
 
 <form action="/create_account" method="POST">
         <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" <?= isset($post_content['email']) ? 'value="' . $post_content['email'] . '"' : '' ?> required>
         <label for="email">Repeat Email Address:</label>
-        <input type="email" id="email2" name="email2" required>
-        <button type="submit">Create Account</button>
+        <input type="email" id="email2" name="email2" <?= isset($post_content['email2']) ? 'value="' . $post_content['email2'] . '"' : '' ?> required>
+        <button class="btn" type="submit">Create Account</button>
 </form>
 </div>

@@ -7,7 +7,18 @@
     <link rel="stylesheet" href="/css/furtive.min.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body class="grd fnt--dark-gray">
+<body class="grd">
+    <?php if(isset($messages) && is_array($messages) && count($messages) > 0): ?>
+    <div class="grd-row my2"><div class="grd-row-col-6 txt--center">
+        <?php foreach($messages as $m): ?>
+            <message class="p1 m1  <?= $m['type'] == 'error' ? 'bg--red': 'bg--blue' ?>">
+                <?= $m['value'] ?>
+            </message>
+
+        <?php endforeach;?>
+    </div></div>
+
+    <?php endif; ?>
     <div class="grd-row my2">
         <?=$this->section('content')?>
     </div>
@@ -16,7 +27,7 @@
     <footer class="grd-row txt--center my2">
         <section class="grd-row-col-2-6--md px2"></section>
         <section class="grd-row-col-2-6--md px2">
-            <a target="_blank" class="fnt--green" href="http://citracode.com">Powered by Citracode</a>
+            <a target="_blank" class="fnt--orange" href="http://citracode.com">Powered by Citracode</a>
         </section>
     </footer>
 </body>

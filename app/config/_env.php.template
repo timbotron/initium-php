@@ -3,6 +3,7 @@
 // Set the credentials, info here, resave as _env.php
 
 define('SITE_NAME','xxxxxx');
+define('SITE_URL','https://www.example.com/');
 define('DB_NAME','xxxxx');
 define('DB_SERVER','xxxxx');
 define('DB_USER','xxxxx');
