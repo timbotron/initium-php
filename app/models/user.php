@@ -29,6 +29,7 @@ class User extends Base {
 	    	"created_at" => date("Y-m-d"),
 	    	"last_login" => "0000-00-00",
 	    	"password_reset" => $uuid,
+	    	"is_active" => 0,
 	    ]);
 
 	    if($this->db->error) {
@@ -60,7 +61,7 @@ class User extends Base {
 		// validate
 
 		$v = new \Valitron\Validator($_POST);
-		$v->rule('required', ['email']);
+		$v->rule('required', ['email', 'email2']);
 		$v->rule('email', 'email');
 		$v->rule('equals', 'email', 'email2');
 		if(!$v->validate()) {
@@ -98,7 +99,11 @@ class User extends Base {
 
 		$email = new Email();
 
-        var_dump($email->send_mailgun($_POST['email'], 'Welcome to '.SITE_NAME, 'Set/Reset Password here: '.$validate_url."\n\n-The ".SITE_NAME .' team', $email_html));
+        $email->send_mailgun($_POST['email'], 'Welcome to '.SITE_NAME, 'Set/Reset Password here: '.$validate_url."\n\n-The ".SITE_NAME .' team', $email_html);
+
+        $this->templates->addData(['page_title' => SITE_NAME], ['basic']);
+		$this->templates->addData(['is_error' => 0, 'top_title' => "Created account", "page_message" =>"<p>Your account was successfully created. Please check your email for your confirmation and link to set your password.</p>"], ['general_message_page']);
+		echo $this->templates->render('general_message_page', );
 
 
 		//if good, create user
@@ -113,7 +118,7 @@ class User extends Base {
 
 		// look up and see if uuid exists
 		if(!$this->db->has('users',['password_reset'=>$vars['pass_uuid']])) {
-			// UUID not found, 404 it
+			// UUID not found, 400 it
 			$this->return_code(400);
 		}
 
@@ -121,6 +126,53 @@ class User extends Base {
 		$this->templates->addData(['page_title' => SITE_NAME . ' Change Password'], ['basic']);
 		$this->templates->addData(['uuid' => $vars['pass_uuid']], ['reset_password_page']);
 		echo $this->templates->render('reset_password_page', );
+	}
+
+	public function reset_password($vars) {
+		if(!$this->isUUID($vars['pass_uuid'])) {
+			// is not a UUID
+			$this->return_code(400);
+		}
+
+		$v = new \Valitron\Validator($_POST);
+		$v->rule('required', ['password', 'password2']);
+		$v->rule('lengthMin', 'password', 8);
+		$v->rule('equals', 'password', 'password2');
+		if(!$v->validate()) {
+		    // Errors
+		    foreach($v->errors() as $err_section) {
+		    	foreach($err_section as $e) {
+		    		$this->add_message('error', $e);
+		    	}
+		    }
+
+		    $this->templates->addData(['messages' => $this->get_messages()], ['basic']);
+		    $this->reset_password_page($vars);
+		    return true;
+		}
+
+		// look up and see if uuid exists
+		$user_id = $this->db->get('users','id', ['password_reset'=>$vars['pass_uuid']]);
+		if(!$user_id) {
+			// user not found, 400 it
+			$this->return_code(400);
+		}
+		else {
+			// found user so lets set password, wipte password hash and move on in life
+			$password = password_hash($_POST["password"], PASSWORD_DEFAULT, ['cost' => 12]);
+			
+			if(!$this->db->update("users",["is_active" => 1, "password" => $password, "password_reset" => ''], ["id" => $user_id])) {
+				// create user failed
+				$this->templates->addData(['messages' => $this->get_messages()], ['basic']);
+			    $this->reset_password_page($vars);
+			    return true;
+			}
+			// just draw gen message
+			$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
+			$this->templates->addData(['is_error' => 0, 'top_title' => "Password Changed Successfully", "page_message" =>"<p>Your password was changed successfully, please proceed to login.</p>\n<a class=\"btn\" href=\"".SITE_URL."login\">Login</a></ br>\n"], ['general_message_page']);
+			echo $this->templates->render('general_message_page', );
+
+		}
 	}
 
 	// set password

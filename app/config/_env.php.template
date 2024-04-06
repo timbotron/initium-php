@@ -10,3 +10,4 @@ define('DB_USER','xxxxx');
 define('DB_PASS','xxxxx');
 define('EMAIL_MAILGUN_KEY','xxxxxx');
 define('EMAIL_MAILGUN_DOMAIN','xxxxx');
+define('EMAIL_SUPPORT_ADDRESS','support@example.com');
