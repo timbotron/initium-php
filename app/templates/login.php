@@ -10,6 +10,6 @@
         <input type="email" id="email" name="email" required>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        <button class="btn" type="submit">Login</button>
+        <input type="submit" value="Login" class="btn">
 </form>
 </div>

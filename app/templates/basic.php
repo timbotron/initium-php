@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body class="grd">
+    <nav class="bg--off-white grd-row py1">
+        <section class="fnt--orange grd-row-col-6 px2">
+            <a class="flt--left" href="<?= SITE_URL ?>">Home</a>
+            <a class="flt--right" href="<?= SITE_URL ?>login">Login</a>
+        </section>
+    </nav>
     <?php if(isset($messages) && is_array($messages) && count($messages) > 0): ?>
     <div class="grd-row my2"><div class="grd-row-col-6 txt--center">
         <?php foreach($messages as $m): ?>

@@ -50,6 +50,13 @@ class User extends Base {
 
 	}
 
+	public function home_page() {
+		// just draw page
+		$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
+		echo $this->templates->render('home', );
+
+	}
+
 	public function create_account_page() {
 		// just draw page
 		$this->templates->addData(['page_title' => SITE_NAME . ' Account Creation'], ['basic']);

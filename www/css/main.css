@@ -2,7 +2,15 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
-a.fnt--mid-gray, h2 a {
+body.grd {
+    padding: 0em;
+}
+
+nav section {
+    margin: 0em;
+}
+
+nav section a {
     text-decoration: none;
 }
 

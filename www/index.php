@@ -13,11 +13,13 @@ require  __DIR__ . '/../vendor/verot/class.upload.php/src/class.upload.php';
 $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
    
     $r->get('/test2/{tid:\d+}',['\Initium\Test','test_instance']);
+    $r->get('/home',['\Initium\User','home_page']);
+    $r->get('/',['\Initium\User','home_page']);
     $r->get('/login',['\Initium\User','login_page']);
-    $r->get('/create_account',['\Initium\User','create_account_page']);
+    $r->get('/create-account',['\Initium\User','create_account_page']);
     $r->get('/password-reset/{pass_uuid}',['\Initium\User','reset_password_page']);
     $r->post('/password-reset/{pass_uuid}',['\Initium\User','reset_password']);
-    $r->post('/create_account',['\Initium\User','create_account']);
+    $r->post('/create-account',['\Initium\User','create_account']);
 
 });
 

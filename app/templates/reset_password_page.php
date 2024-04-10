@@ -11,5 +11,6 @@
         <label for="password2">Repeat Password:</label>
         <input type="password" id="password2" name="password2" required>
         <button class="btn" type="submit">Change Password</button>
+        <input type="submit" value="Change Password" class="btn">
 </form>
 </div>
