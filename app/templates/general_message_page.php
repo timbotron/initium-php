@@ -11,8 +11,6 @@
 	<p>Please contact support if desired.</p>
 <?php endif; ?>
 
-<a href="<?= SITE_URL;?>" class="btn">Home</a>
-
 <?php if($is_error): ?>
 	<a href="mailto:<?= EMAIL_SUPPORT_ADDRESS;?>" class="btn">Email Support</a>
 <?php endif; ?>

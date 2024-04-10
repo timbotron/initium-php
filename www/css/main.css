@@ -2,15 +2,11 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
-body.grd {
-    padding: 0em;
-}
-
 nav section {
     margin: 0em;
 }
 
-nav section a {
+nav section a, .login-footer a {
     text-decoration: none;
 }
 
@@ -38,8 +34,8 @@ code {
 }
 
 @media screen and (max-width: 600px) {
-  section p, section ul, section li, section small, aside ul, aside li {
-    font-size: 14px;
+  form input, form label, message, nav section a {
+    font-size: 16px;
     }
 
 }

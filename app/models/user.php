@@ -117,6 +117,64 @@ class User extends Base {
 		//
 	}
 
+	public function forgot_password_page() {
+		// just draw page
+		$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
+		echo $this->templates->render('forgot_password_page', );
+
+	}
+
+	public function forgot_password() {
+		// validate
+
+		$v = new \Valitron\Validator($_POST);
+		$v->rule('required', ['email']);
+		$v->rule('email', 'email');
+		if(!$v->validate()) {
+		    // Errors
+		    foreach($v->errors() as $err_section) {
+		    	foreach($err_section as $e) {
+		    		$this->add_message('error', $e);
+		    	}
+		    }
+
+		    $this->templates->addData(['messages' => $this->get_messages()], ['basic']);
+		    $this->templates->addData(['post_content' => $_POST], ['forgot_password_page']);
+		    $this->forgot_password_page();
+		    return true;
+		}
+
+		$user_id = $this->db->get('users','id', ['email'=>$_POST['email'], 'is_active' => 1]);
+
+		if($user_id) {
+			// actually found user, lets set uuid and trigger email
+			$uuid = $this->generate_uuid();
+
+			// update user record to have new uuid
+			$this->db->update("users", ['password_reset' => $uuid], ['id' => $user_id]);
+			$validate_url = SITE_URL . 'password-reset/'.$uuid;
+
+		    // lets send email
+			$this->templates->addData(['reset_type' => 'same', 'page_title' => SITE_NAME, 'reset_link' => $validate_url], ['reset_password_email']);
+
+			$email_html = $this->templates->render('reset_password_email');
+
+			$email = new Email();
+
+	        $email->send_mailgun($_POST['email'], 'Reset Password for '.SITE_NAME, 'Set/Reset Password here: '.$validate_url."\n\n-The ".SITE_NAME .' team', $email_html);
+		}
+
+
+		// either way, show success-y page
+
+		$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
+		$this->templates->addData(['is_error' => 0, 'top_title' => "New Password requested", "page_message" =>"<p>If your email exists in our system, you should receive an email with a password reset link soon.</p>"], ['general_message_page']);
+		echo $this->templates->render('general_message_page', );
+
+				//if good, create user
+		//
+	}
+
 	public function reset_password_page($vars) {
 		if(!$this->isUUID($vars['pass_uuid'])) {
 			// is not a UUID
@@ -176,7 +234,7 @@ class User extends Base {
 			}
 			// just draw gen message
 			$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
-			$this->templates->addData(['is_error' => 0, 'top_title' => "Password Changed Successfully", "page_message" =>"<p>Your password was changed successfully, please proceed to login.</p>\n<a class=\"btn\" href=\"".SITE_URL."login\">Login</a></ br>\n"], ['general_message_page']);
+			$this->templates->addData(['is_error' => 0, 'top_title' => "Password Changed Successfully", "page_message" =>"<p>Your password was changed successfully, please proceed to login.</p>\n"], ['general_message_page']);
 			echo $this->templates->render('general_message_page', );
 
 		}
