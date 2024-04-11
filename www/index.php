@@ -16,6 +16,7 @@ $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r)
     $r->get('/home',['\Initium\User','home_page']);
     $r->get('/',['\Initium\User','home_page']);
     $r->get('/login',['\Initium\User','login_page']);
+    $r->post('/login',['\Initium\User','login']);
     $r->get('/create-account',['\Initium\User','create_account_page']);
     $r->post('/create-account',['\Initium\User','create_account']);
     $r->get('/password-forgot',['\Initium\User','forgot_password_page']);

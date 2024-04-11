@@ -50,6 +50,31 @@ class User extends Base {
 
 	}
 
+	public function login() {
+		$v = new \Valitron\Validator($_POST);
+		$v->rule('required', ['email', 'password']);
+		$v->rule('email', 'email');
+		$v->rule('lengthMin', 'password', 8);
+		$v->rule('lengthMax', 'password', 199);
+		if(!$v->validate()) {
+		    // Errors
+		    foreach($v->errors() as $err_section) {
+		    	foreach($err_section as $e) {
+		    		$this->add_message('error', $e);
+		    	}
+		    }
+
+		    $this->templates->addData(['messages' => $this->get_messages()], ['basic']);
+		    $this->templates->addData(['post_content' => $_POST], ['login']);
+		    $this->login_page();
+		    return true;
+		}
+
+		$cred = new Cred();
+		var_dump($cred->login($_POST['email'], $_POST['password']));
+
+	}
+
 	public function home_page() {
 		// just draw page
 		$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
@@ -202,6 +227,7 @@ class User extends Base {
 		$v = new \Valitron\Validator($_POST);
 		$v->rule('required', ['password', 'password2']);
 		$v->rule('lengthMin', 'password', 8);
+		$v->rule('lengthMax', 'password', 199);
 		$v->rule('equals', 'password', 'password2');
 		if(!$v->validate()) {
 		    // Errors
