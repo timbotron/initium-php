@@ -10,6 +10,6 @@
         <input type="password" id="password" name="password" required>
         <label for="password2">Repeat Password:</label>
         <input type="password" id="password2" name="password2" required>
-        <input type="submit" value="Change Password" class="btn">
+        <input type="submit" value="Change Password" class="btn btn--green">
 </form>
 </div>

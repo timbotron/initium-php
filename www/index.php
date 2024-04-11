@@ -12,11 +12,11 @@ require  __DIR__ . '/../vendor/verot/class.upload.php/src/class.upload.php';
 
 $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
    
-    $r->get('/test2/{tid:\d+}',['\Initium\Test','test_instance']);
-    $r->get('/home',['\Initium\User','home_page']);
     $r->get('/',['\Initium\User','home_page']);
+    $r->get('/logout',['\Initium\User','logout_page']);
     $r->get('/login',['\Initium\User','login_page']);
     $r->post('/login',['\Initium\User','login']);
+    $r->get('/logged-in-page',['\Initium\User','logged_in_page']);
     $r->get('/create-account',['\Initium\User','create_account_page']);
     $r->post('/create-account',['\Initium\User','create_account']);
     $r->get('/password-forgot',['\Initium\User','forgot_password_page']);
@@ -50,6 +50,11 @@ switch ($routeInfo[0]) {
         header("HTTP/1.0 405 Method Not Allowed");
         break;
     case \FastRoute\Dispatcher::FOUND:
+        // server should keep session data for AT LEAST 1 hour
+        ini_set('session.gc_maxlifetime', 120);
+        // each client should remember their session id for EXACTLY 1 hour
+        session_set_cookie_params(120);
+        session_start();
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
         $class = new $handler[0];

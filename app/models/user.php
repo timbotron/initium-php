@@ -9,6 +9,9 @@ class User extends Base {
 	public function __construct() {
 		parent::__construct();
 		$this->templates = new \League\Plates\Engine(__DIR__ . '/../templates');
+		$this->templates->addData(['is_logged_in' => Cred::userDetails() ? true : false], ['basic']);
+
+
 
 	}
 
@@ -45,7 +48,6 @@ class User extends Base {
 		// just draw page
 		$this->templates->addData(['page_title' => SITE_NAME . ' Login'], ['basic']);
 
-
 		echo $this->templates->render('login', );
 
 	}
@@ -71,7 +73,45 @@ class User extends Base {
 		}
 
 		$cred = new Cred();
-		var_dump($cred->login($_POST['email'], $_POST['password']));
+
+		if(!$cred->login($_POST['email'], $_POST['password'])) {
+			$this->add_message('error', 'Email or password incorrect.');
+			$this->templates->addData(['messages' => $this->get_messages()], ['basic']);
+		    $this->templates->addData(['post_content' => $_POST], ['login']);
+		    $this->login_page();
+		    return true;
+		}
+
+		header('Location: ' . SITE_URL . 'logged-in-page');
+        exit;
+
+
+
+	}
+
+	public function logged_in_page() {
+		$user = Cred::userDetails();
+
+		if(!$user) {
+			header('Location: ' . SITE_URL);
+        exit; 
+		}
+
+		// just draw page
+		$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
+		$this->templates->addData(['user' => $user], ['logged_in_page']);
+		echo $this->templates->render('logged_in_page', );
+	}
+
+
+	public function logout_page() {
+		
+		Cred::logout();
+
+		$this->templates->addData(['is_logged_in' =>false], ['basic']);
+		$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
+		$this->templates->addData(['is_error' => 0, 'top_title' => "Logout Successful.", "page_message" =>"<p>You have been logged out.</p>"], ['general_message_page']);
+		echo $this->templates->render('general_message_page', );
 
 	}
 

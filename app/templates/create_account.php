@@ -12,6 +12,6 @@
         <input type="email" id="email" name="email" <?= isset($post_content['email']) ? 'value="' . $post_content['email'] . '"' : '' ?> required>
         <label for="email">Repeat Email Address:</label>
         <input type="email" id="email2" name="email2" <?= isset($post_content['email2']) ? 'value="' . $post_content['email2'] . '"' : '' ?> required>
-        <input type="submit" value="Create Account" class="btn">
+        <input type="submit" value="Create Account" class="btn btn--green">
 </form>
 </div>

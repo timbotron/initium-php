@@ -11,7 +11,12 @@
     <nav class="bg--off-white grd-row py1">
         <section class="fnt--orange grd-row-col-6 px2">
             <a class="flt--left" href="<?= SITE_URL ?>">Home</a>
+            <?php if($is_logged_in): ?>
+            <a class="flt--left mx2" href="<?= SITE_URL ?>logged-in-page">Internal</a>
+            <a class="flt--right" href="<?= SITE_URL ?>logout">Logout</a>
+            <?php else:?>
             <a class="flt--right" href="<?= SITE_URL ?>login">Login</a>
+            <?php endif;?>
         </section>
     </nav>
     <?php if(isset($messages) && is_array($messages) && count($messages) > 0): ?>
