@@ -34,7 +34,6 @@ class DB {
         return self::$instance;
     }
 
-    // Accessor for the PDO connection
     public function connect() {
         return $this->connection;
     }

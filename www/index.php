@@ -50,10 +50,9 @@ switch ($routeInfo[0]) {
         header("HTTP/1.0 405 Method Not Allowed");
         break;
     case \FastRoute\Dispatcher::FOUND:
-        // server should keep session data for AT LEAST 1 hour
-        ini_set('session.gc_maxlifetime', 120);
-        // each client should remember their session id for EXACTLY 1 hour
-        session_set_cookie_params(120);
+        // session timeouts
+        ini_set('session.gc_maxlifetime', 3600 * LOGIN_TIMEOUT);
+        session_set_cookie_params(3600 * LOGIN_TIMEOUT);
         session_start();
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
