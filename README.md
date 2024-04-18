@@ -16,6 +16,11 @@ A simple PHP framework with built-in user authentication. Designed to be cloned 
 * Turnkey Auth; complete authentication is built in. Signups, password resets, email triggers, etc.
 * Mailgun support for password resets is built-in.
 
+## Get Started
+
+1. Use the included `.sql` file and run that on your desired database. 
+2. Copy the `_env.php.template` to `_env.php` and update the values.
+
 
 ## Packages
 
