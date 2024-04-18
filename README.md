@@ -53,6 +53,14 @@ Very lightweight wrapper around the PDO methods, making working with databases q
 Seems like data validation coming from the user is always necessary. Spritely little package to help with it.
 
 
+## Credits
+
+Besides the packages above, I am using the [Furtive](https://github.com/johno/furtive) CSS Microframework.
+
+I also credit the 13 fun-size bags of Skittles I ate while working on this in the evenings. 
+
+Skittles. Taste the rainbow!
+
 ## License
 
 Copyright 2024 Tim Habersack
