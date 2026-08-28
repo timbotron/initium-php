@@ -122,6 +122,10 @@ class User extends Base {
 	}
 
 	public function create_account_page() {
+		if(!ALLOW_SIGNUPS) {
+			$this->return_code(404);
+		}
+
 		// just draw page
 		$this->templates->addData(['page_title' => SITE_NAME . ' Account Creation'], ['basic']);
 		echo $this->templates->render('create_account', );
@@ -129,6 +133,10 @@ class User extends Base {
 	}
 
 	public function create_account() {
+		if(!ALLOW_SIGNUPS) {
+			$this->return_code(404);
+		}
+
 		// validate
 
 		$v = new \Valitron\Validator($_POST);
