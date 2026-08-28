@@ -26,7 +26,9 @@ class Cred extends Base {
 		$user = $this->db->get("users", ['id','email','password'], ['is_active' => 1, 'email'=> $email]);
 
 		if($user && password_verify($password, $user['password'])) {
-			// login good, lets set session stuff
+			// login good. Regenerate the id at the privilege boundary to
+			// prevent session fixation, then set session stuff
+			session_regenerate_id(true);
 			$_SESSION['user_data'] = [
 				'user_id' => $user['id'],
 				'email' => $user['email'],
