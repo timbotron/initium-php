@@ -26,7 +26,10 @@ class Cred extends Base {
 		$user = $this->db->get("users", ['id','email','password'], ['is_active' => 1, 'email'=> $email]);
 
 		if($user && password_verify($password, $user['password'])) {
-			// login good. Regenerate the id at the privilege boundary to
+			// login good. Record the login time on the row
+			$this->db->update('users', ['last_login' => date('Y-m-d H:i:s')], ['id' => $user['id']]);
+
+			// Regenerate the id at the privilege boundary to
 			// prevent session fixation, then set session stuff
 			session_regenerate_id(true);
 			$_SESSION['user_data'] = [
