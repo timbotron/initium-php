@@ -7,7 +7,7 @@
 
 <form action="/login" method="POST">
         <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" <?= isset($post_content['email']) ? 'value="' . $post_content['email'] . '"' : '' ?>  required>
+        <input type="email" id="email" name="email" value="<?= $this->e($post_content['email'] ?? '') ?>" required>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <input type="submit" value="Login" class="btn btn--green">

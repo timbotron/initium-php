@@ -9,7 +9,7 @@
 
 <form action="/password-forgot" method="POST">
         <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" <?= isset($post_content['email']) ? 'value="' . $post_content['email'] . '"' : '' ?> required>
+        <input type="email" id="email" name="email" value="<?= $this->e($post_content['email'] ?? '') ?>" required>
         <input type="submit" value="Forgot Password" class="btn btn--green">
 </form>
 </div>

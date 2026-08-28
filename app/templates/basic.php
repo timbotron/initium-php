@@ -23,7 +23,7 @@
     <div class="grd-row my2"><div class="grd-row-col-6 txt--center">
         <?php foreach($messages as $m): ?>
             <message class="p1 m1  <?= $m['type'] == 'error' ? 'bg--red': 'bg--blue' ?>">
-                <?= $m['value'] ?>
+                <?= $this->e($m['value']) ?>
             </message>
 
         <?php endforeach;?>
