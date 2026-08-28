@@ -2,8 +2,8 @@
 
 ini_set('date.timezone', 'America/Los_Angeles');
 
-// make directory put here be the root of project
-define('PROJECT_ROOT', substr(__DIR__, 0,strpos(__DIR__, '/site_dir/')).'/site_dir');
+// repo root, two levels above app/config
+define('PROJECT_ROOT', dirname(__DIR__, 2));
 
 \AaronHolbrook\Autoload\autoload( __DIR__ . '/../models' );
 
