@@ -27,7 +27,7 @@ class User extends Base {
 	// create user
 	public function create_user($email, $uuid) {
 
-		$ret = $this->db->insert("users", [
+		$this->db->insert("users", [
 	    	"email" => $email,
 	    	"created_at" => date("Y-m-d"),
 	    	"password_reset" => $uuid,
@@ -35,12 +35,23 @@ class User extends Base {
 	    ]);
 
 	    if($this->db->error) {
-	    	// was an error, lets shove to messages
-	    	$this->add_message('error', 'DB Error: ' . $this->db->error);
+	    	// log server-side; never surface the raw SQL error to the client
+	    	error_log('create_user DB error: ' . $this->db->error);
 	    	return false;
 	    }
 
 	    return true;
+	}
+
+	// render + send the set/reset-password email for a given uuid
+	protected function send_set_password_email($email, $uuid, $reset_type, $subject) {
+		$validate_url = SITE_URL . 'password-reset/' . $uuid;
+
+		$this->templates->addData(['reset_type' => $reset_type, 'page_title' => SITE_NAME, 'reset_link' => $validate_url], ['reset_password_email']);
+		$email_html = $this->templates->render('reset_password_email');
+
+		$mailer = new Email();
+		$mailer->send_mailgun($email, $subject, 'Set/Reset Password here: ' . $validate_url . "\n\n-The " . SITE_NAME . ' team', $email_html);
 	}
 
 	public function login_page() {
@@ -157,36 +168,29 @@ class User extends Base {
 		    return true;
 		}
 
-		// validated, let's create
-		$uuid = $this->generate_uuid();
+		// validated. Non-enumerable flow: always render the same success page
+		// regardless of whether the email already exists.
+		$email = $_POST['email'];
+		$existing = $this->db->get('users', ['id', 'is_active'], ['email' => $email]);
 
-		if(!$this->create_user($_POST['email'], $uuid)) {
-			// create user failed
-			$this->templates->addData(['messages' => $this->get_messages()], ['basic']);
-		    $this->templates->addData(['post_content' => $_POST], ['create_account']);
-		    $this->create_account_page();
-		    return true;
+		if(!$existing) {
+			// brand-new email: create the inactive user and send the set-password link
+			$uuid = $this->generate_uuid();
+			if($this->create_user($email, $uuid)) {
+				$this->send_set_password_email($email, $uuid, 'new', 'Welcome to ' . SITE_NAME);
+			}
 		}
+		elseif(!$existing['is_active']) {
+			// abandoned signup: refresh the uuid and re-send, so they aren't dead-ended
+			$uuid = $this->generate_uuid();
+			$this->db->update('users', ['password_reset' => $uuid], ['id' => $existing['id']]);
+			$this->send_set_password_email($email, $uuid, 'new', 'Welcome to ' . SITE_NAME);
+		}
+		// existing and active: send nothing, but still show the same page below
 
-		$validate_url = SITE_URL . 'password-reset/'.$uuid;
-
-		// actually good, lets send email
-		$this->templates->addData(['reset_type' => 'new', 'page_title' => SITE_NAME, 'reset_link' => $validate_url], ['reset_password_email']);
-
-		$email_html = $this->templates->render('reset_password_email');
-
-
-		$email = new Email();
-
-        $email->send_mailgun($_POST['email'], 'Welcome to '.SITE_NAME, 'Set/Reset Password here: '.$validate_url."\n\n-The ".SITE_NAME .' team', $email_html);
-
-        $this->templates->addData(['page_title' => SITE_NAME], ['basic']);
+		$this->templates->addData(['page_title' => SITE_NAME], ['basic']);
 		$this->templates->addData(['is_error' => 0, 'top_title' => "Created account", "page_message" =>"<p>Your account was successfully created. Please check your email for your confirmation and link to set your password.</p>"], ['general_message_page']);
 		echo $this->templates->render('general_message_page', );
-
-
-		//if good, create user
-		//
 	}
 
 	public function forgot_password_page() {
@@ -224,16 +228,8 @@ class User extends Base {
 
 			// update user record to have new uuid
 			$this->db->update("users", ['password_reset' => $uuid], ['id' => $user_id]);
-			$validate_url = SITE_URL . 'password-reset/'.$uuid;
 
-		    // lets send email
-			$this->templates->addData(['reset_type' => 'same', 'page_title' => SITE_NAME, 'reset_link' => $validate_url], ['reset_password_email']);
-
-			$email_html = $this->templates->render('reset_password_email');
-
-			$email = new Email();
-
-	        $email->send_mailgun($_POST['email'], 'Reset Password for '.SITE_NAME, 'Set/Reset Password here: '.$validate_url."\n\n-The ".SITE_NAME .' team', $email_html);
+			$this->send_set_password_email($_POST['email'], $uuid, 'same', 'Reset Password for ' . SITE_NAME);
 		}
 
 
