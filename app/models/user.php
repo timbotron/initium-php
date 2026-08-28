@@ -30,7 +30,6 @@ class User extends Base {
 		$ret = $this->db->insert("users", [
 	    	"email" => $email,
 	    	"created_at" => date("Y-m-d"),
-	    	"last_login" => "0000-00-00",
 	    	"password_reset" => $uuid,
 	    	"is_active" => 0,
 	    ]);
