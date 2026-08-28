@@ -50,10 +50,30 @@ switch ($routeInfo[0]) {
         header("HTTP/1.0 405 Method Not Allowed");
         break;
     case \FastRoute\Dispatcher::FOUND:
-        // session timeouts
-        ini_set('session.gc_maxlifetime', 3600 * LOGIN_TIMEOUT);
-        session_set_cookie_params(3600 * LOGIN_TIMEOUT);
+        // session timeouts + persistent-by-default login
+        $session_lifetime = 3600 * LOGIN_TIMEOUT;
+
+        // Keep sessions in a private store above the web root so the OS
+        // sessionclean cron cannot purge our long-lived session files.
+        $session_path = __DIR__ . '/../app/storage/sessions';
+        if (!is_dir($session_path)) {
+            mkdir($session_path, 0700, true);
+        }
+        session_save_path($session_path);
+        ini_set('session.gc_maxlifetime', $session_lifetime);
+
+        $cookie_base = [
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+            'secure' => !empty($_SERVER['HTTPS']),
+        ];
+        session_set_cookie_params(['lifetime' => $session_lifetime] + $cookie_base);
         session_start();
+
+        // Re-send the cookie each request so the expiry slides forward with activity.
+        setcookie(session_name(), session_id(), ['expires' => time() + $session_lifetime] + $cookie_base);
+
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
         $class = new $handler[0];
